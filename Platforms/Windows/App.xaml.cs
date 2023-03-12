@@ -17,6 +17,16 @@ public partial class App : MauiWinUIApplication
 	public App()
 	{
 		this.InitializeComponent();
+
+		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
+		{
+#if __ANDRIOD__
+			handler.PatformView.SetBackgroundColor(Andriod.Graphics.Color.Transparent);
+#elif __IOS__
+			handler.Platform.BackgroundColor = UIKit.UIColor.Clear;
+			handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#endif
+		});
 	}
 
 	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
